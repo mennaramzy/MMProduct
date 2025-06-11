@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product Manager</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/all.min.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+ 
+
+</head>
+<body class="bg-light">
+  <div class="container my-5">
+    <h1 class="text-center mb-5 fw-bold text-primary">Product Management</h1>
+    
+    <form id="productForm" novalidate class="row g-3 justify-content-center bg-white p-4 rounded-3 shadow-sm">
+      <div class="mb-3 col-md-6">
+        <div class="input-group rounded-3">
+          <span class="input-group-text bg-white text-primary"><i class="fas fa-tag"></i></span>
+          <input type="text" class="form-control" id="productName" placeholder="Product Name" oninput="validateInput(this)">
+        </div>
+        <div class="invalid-feedback text-danger" style="display: none;">Product Name must start with a capital letter and be 3–15 chars.</div>
+      </div>
+    
+      <div class="mb-3 col-md-6">
+        <div class="input-group rounded-3">
+          <span class="input-group-text bg-white text-primary">$</span>
+          <input type="number" class="form-control" id="productPrice" placeholder="Product Price" oninput="validateInput(this)">
+        </div>
+        <div class="invalid-feedback text-danger" style="display: none;">Price must be between 600 and 60000 EGP.</div>
+      </div>
+
+      <div class="mb-3 col-md-6">
+        <div class="input-group rounded-3">
+          <span class="input-group-text bg-white text-primary"><i class="fas fa-list"></i></span>
+          <select class="form-select" id="productCategory" onchange="validateInput(this)">
+            <option value="" disabled selected>Choose category</option>
+            <option value="Phones">Phones</option>
+            <option value="Screens">Screens</option>
+            <option value="Airpods">Airpods</option>
+            <option value="Watches">Watches</option>
+          </select>
+        </div>
+        <div class="invalid-feedback text-danger" style="display: none;">Please select a valid category.</div>
+      </div>
+  
+      <div class="mb-3 col-md-6">
+        <div class="input-group rounded-3">
+          <input type="file" class="form-control" id="productImage" accept="image/jpeg,image/png,image/webp" onchange="validateInput(this)">
+        </div>
+        <div class="invalid-feedback text-danger" style="display: none;">Only JPG, PNG, or WEBP files under 2MB allowed.</div>
+        <small id="fileSelectedMessage" class="text-muted d-block mt-1">No image selected.</small>
+        <img id="imagePreview" class="img-fluid d-none rounded mt-2" alt="Image Preview">
+      </div>
+     
+      <div class="mb-3 col-md-6">
+        <div class="input-group rounded-3">
+          <span class="input-group-text bg-white text-primary"><i class="fas fa-align-left"></i></span>
+          <textarea class="form-control" id="productDescription" rows="3" placeholder="Description" oninput="validateInput(this)"></textarea>
+        </div>
+        <div class="invalid-feedback text-danger" style="display: none;">Description must be 0–255 chars.</div>
+      </div>
+  
+      <div class="mb-3 col-md-6 d-flex gap-3">
+        <button type="button" id="addbtn" class="btn btn-success btn-lg w-50" disabled>Add Product</button>
+        <button type="button" id="updatebtn" class="btn btn-warning btn-lg w-50 d-none" disabled>Update Product</button>
+      </div>
+    </form>
+
+    <div class="row g-3 justify-content-center mt-4">
+      <div class="col-md-6">
+        <div class="input-group rounded-3 shadow-sm">
+          <span class="input-group-text bg-white text-primary"><i class="fas fa-search"></i></span>
+          <input type="text" id="searchInput" class="form-control" placeholder="Search products" oninput="searchProducts(this)">
+        </div>
+      </div>
+      <div class="col-md-6 d-flex gap-2">
+        <button type="button" class="btn btn-outline-primary w-50" onclick="sortProducts('asc')">Sort: Low → High</button>
+        <button type="button" class="btn btn-outline-primary w-50" onclick="sortProducts('desc')">Sort: High → Low</button>
+      </div>
+    </div>
+
+    <div id="no-products-message" class="alert alert-info text-center mt-4 d-none p-3 rounded-3 shadow-sm">No Products Found</div>
+    <div id="no-search-results" class="alert alert-info text-center mt-4 d-none p-3 rounded-3 shadow-sm">No products match your search.</div>
+    <div id="productList" class="row mt-4 g-3"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
