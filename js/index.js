@@ -125,43 +125,46 @@ window.addEventListener('DOMContentLoaded', () => {
     Object.keys(touched).forEach(k => touched[k] = false);
   }
 
-  function displayProducts(products = productList) {
-    productListElement.innerHTML = '';
-    if (products.length === 0) {
-      noProductsMessage.style.display = searchInput.value.trim() ? 'none' : 'block';
-      noSearchResults.style.display = searchInput.value.trim() ? 'block' : 'none';
-      return;
-    }
-    noProductsMessage.style.display = 'none';
-    noSearchResults.style.display = 'none';
+ function displayProducts(products = productList) {
+  productListElement.innerHTML = '';
+  const isSearch = searchInput.value.trim() !== '';
 
-    const term = searchInput.value.trim().toLowerCase();
-    const regex = new RegExp(term, 'gi');
-
-    products.forEach((p, idx) => {
-      const name = term ? p.name.replace(regex, x => `<span class="bg-warning">${x}</span>`) : p.name;
-      const desc = term ? (p.description||'').replace(regex, x => `<span class="bg-warning">${x}</span>`) : (p.description|| '');
-      const cat = term ? p.category.replace(regex, x => `<span class="bg-warning">${x}</span>`) : p.category;
-
-      const col = document.createElement('div');
-      col.className = 'col-md-4';
-      col.innerHTML = `
-        <div class="card shadow product-card">
-          <img src="${p.image}" class="card-img-top" alt="${p.name}">
-          <div class="card-body">
-            <h5 class="card-title">${name}</h5>
-            <p class="card-text text-muted">${desc}</p>
-            <p><strong>Price:</strong> ${p.price} EGP</p>
-            <p><strong>Category:</strong> ${cat}</p>
-            <div class="d-flex gap-2">
-              <button class="btn btn-sm btn-warning flex-grow-1" onclick="editProduct(${idx})"><i class="fas fa-edit"></i> Edit</button>
-              <button class="btn btn-sm btn-danger flex-grow-1" onclick="deleteProduct(${idx})"><i class="fas fa-trash"> </i> Delete</button>
-            </div>
-          </div>
-        </div>`;
-      productListElement.appendChild(col);
-    });
+  if (products.length === 0) {
+    noProductsMessage.classList.toggle('d-none', isSearch);
+    noSearchResults.classList.toggle('d-none', !isSearch);
+    return;
   }
+
+  noProductsMessage.classList.add('d-none');
+  noSearchResults.classList.add('d-none');
+
+  const term = searchInput.value.trim().toLowerCase();
+  const regex = new RegExp(term, 'gi');
+
+  products.forEach((p, idx) => {
+    const name = term ? p.name.replace(regex, x => `<span class="bg-warning">${x}</span>`) : p.name;
+    const desc = term ? (p.description || '').replace(regex, x => `<span class="bg-warning">${x}</span>`) : (p.description || '');
+    const cat = term ? p.category.replace(regex, x => `<span class="bg-warning">${x}</span>`) : p.category;
+
+    const col = document.createElement('div');
+    col.className = 'col-md-4';
+    col.innerHTML = `
+      <div class="card shadow product-card">
+        <img src="${p.image}" class="card-img-top" alt="${p.name}">
+        <div class="card-body">
+          <h5 class="card-title">${name}</h5>
+          <p class="card-text text-muted">${desc}</p>
+          <p><strong>Price:</strong> ${p.price} EGP</p>
+          <p><strong>Category:</strong> ${cat}</p>
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-warning flex-grow-1" onclick="editProduct(${idx})"><i class="fas fa-edit"></i> Edit</button>
+            <button class="btn btn-sm btn-danger flex-grow-1" onclick="deleteProduct(${idx})"><i class="fas fa-trash"> </i> Delete</button>
+          </div>
+        </div>
+      </div>`;
+    productListElement.appendChild(col);
+  });
+}
 
   window.searchProducts = input => displayProducts(productList.filter(p =>
     p.name.toLowerCase().includes(input.value.toLowerCase()) ||
